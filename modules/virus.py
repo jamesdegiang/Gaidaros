@@ -46,7 +46,7 @@ def scanVirus(target, output, data):
             pass
             
     except Exception as e:
-        print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
+        print('\n\n' + R + '[-]' + C + ' Exception : ' + W + str(e))
         if output != 'None':
             result.update({'Exception':str(e)})
     
