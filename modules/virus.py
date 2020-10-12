@@ -1,0 +1,58 @@
+import requests
+import json
+
+
+R = '\033[31m' # red
+G = '\033[32m' # green
+C = '\033[36m' # cyan
+W = '\033[0m'  # white
+Y = '\033[33m' # yellow
+
+
+# Provide your apikey
+api_key = ''
+
+
+def scanVirus(target, output, data):
+    result = {}
+    try:
+        response = requests.get('https://www.virustotal.com/vtapi/v2/url/report?apikey=' + api_key + '&resource=' + target)
+        json_data = json.loads(response.text)
+        
+        count = 0
+        print ('\n\n' + G + '[+]' + Y + ' Malware Scanner :' + W + '\n')
+        for k,v in json_data.items():
+            if k != 'scans':
+                print(G + '[+] ' +  C + str(k).capitalize() + ' : ' + W + str(v))
+            elif k == 'scans':
+                print(G + '[+] ' +  C + str(k).capitalize() + ' :' + W)
+                for engine in v.items():
+                    if (engine[1].get('detected') == False):
+                        print('      |--  ' + C + engine[0] + ' : ' + G + str(engine[1]) + W)
+                    elif(engine[1].get('detected') == True):
+                        print('      |--  ' + C + engine[0] + ' : ' + R + str(engine[1]) + W)
+                        count = count + 1
+                    if output != 'None':
+                            result.update({engine[0]:engine[1]})
+                result.update({'Positives':count})
+            else:
+                pass
+
+        if count > 0:
+            print('\n' + R + '[!] ' + str(count) + ' total engines confirmed your site is malicious. Your site is malicious, check data for more info')
+        elif count == 0:
+            print('\n' + G + '[+] ' + str(count) + ' total engines detected any malware. Your site looks secure')
+        else:
+            pass
+            
+    except Exception as e:
+        print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
+        if output != 'None':
+            result.update({'Exception':str(e)})
+    
+    if output != 'None':
+        scanVirus_output(output, data, result)
+        print()
+
+def scanVirus_output(output, data, result):
+    data['module-Virus Total'] = result
