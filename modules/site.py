@@ -1,4 +1,6 @@
 import requests
+import re
+import hashlib
 
 
 R = '\033[31m' # red
@@ -31,10 +33,45 @@ def scanSite(target, output, data):
             server_info = responds.headers.get('Server')
             if server_info != None:
                 negatives.append('Server Information is not configured to be hidden : ' + server_info)
+                if not (server_info.strip().startswith('Apache')):
+                    pass
+                else:
+                    # Detect Apache Outdated version
+                    apache_version = re.search('Apache/(.*) ', server_info).group(1)
+                    if re.search("3.\\d+.?", apache_version):
+                        pass
+                    elif re.search("[0-2].\\d+.?", apache_version):
+                        negatives.append('Outdated Apache Web Server Version', apache_version)
+                    else:
+                        pass
             else:
                 positives.append('Server Information is hidden')
         except:
             positives.append('Could not retrieve Server Information')
+
+        # Detect Apache Version exposure misconfiguration via 404 response
+        try:
+            test_number = 0
+            test_bool = False
+            while test_number < 10:
+                test_public_salt = 'SAlTACTUALLYjustARANDomStr1ng_veryUniqUEyo!'
+                test_hash = hashlib.sha3_512((str(test_number) + test_public_salt).encode()).hexdigest()
+                test_404_responds = requests.get(target + '/' + test_hash)
+                if test_404_responds.status_code == 404:
+                    if 'Apache/' in test_404_responds.text and ('The requested URL /' + test_hash + ' was not found on this server.') in responds.text:
+                        test_apache_version = re.search('Apache/[0-3].\\d+.?(.*) Server', test_404_responds.text).group(1)
+                        negatives.append('404 Reponses exposed sensitive data : ' + test_apache_version)
+                        test_bool = True
+                        break
+                    else:
+                        test_number = test_number + 1 
+                        pass
+            if test_bool:
+                negatives.append('Server does not seem to handle 404 HTTP Responses')
+            else:
+                positives.append('Server handles 404 HTTP Responses')    
+        except:
+            pass
 
         # X-Powered-By
         try:
