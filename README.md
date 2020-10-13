@@ -42,7 +42,7 @@ Using help command for a list of usage
 sudo python3 gaidaros.py -h
 ```
 Supply with your own apikeys in order to use some modules
-```
+```bash
 nano ./conf/keys.json
 ```
 
