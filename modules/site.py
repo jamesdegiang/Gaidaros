@@ -208,6 +208,16 @@ def scanSite(target, output, data):
                 negatives.append('Missing Content-Security-Policy directive')
         except:
             negatives.append('Could not retrieve Content-Security-Policy')
+
+        # Missing HTTP Security Access-Control-Allow-Origin Header
+        try:
+            access_control_allow_origin = responds.headers.get('Access-Control-Allow-Origin')
+            if access_control_allow_origin != None:
+                positives.append('Access-Control-Allow-Origin is set')
+            else:
+                negatives.append('Access-Control-Allow-Origin is not set ')
+        except:
+            negatives.append('Could not retrieve Access-Control-Allow-Origin')
         
         print()
         for negative in negatives:
