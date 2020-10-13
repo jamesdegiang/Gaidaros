@@ -19,7 +19,7 @@ def scanVirus(target, output, data):
         with open('conf/keys.json', 'r') as keyfile:
             json_read = keyfile.read()
         json_load = json.loads(json_read)
-        virus_key = json_load['api_keys'][0]['virustotal']
+        virus_key = json_load['api_keys'][1]['virustotal']
         
         response = requests.get('https://www.virustotal.com/vtapi/v2/url/report?apikey=' + virus_key + '&resource=' + target)
         json_data = json.loads(response.text)
