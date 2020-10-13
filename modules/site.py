@@ -128,7 +128,18 @@ def scanSite(target, output, data):
             else:
                 pass
         except:
-            positives.append('Could not retrieve robot file')    
+            positives.append('Could not retrieve robot file')
+        
+        # sitemap.xml
+        try:       
+            if requests.get(target + '/sitemap.xml').status_code == 200:
+                negatives.append('Found /sitemap.xml file')
+            elif requests.get(target + '/sitemap.xml').status_code == 404:
+                positives.append('No /sitemap.xml file found')
+            else:
+                pass
+        except:
+            positives.append('Could not retrieve robot file')   
 
         # Insecure HTTP cookies
         try:
