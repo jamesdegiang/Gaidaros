@@ -16,20 +16,21 @@ api_key = ''
 def scanVirus(target, output, data):
     result = {}
     try:
+        print ('\n\n' + G + '[+]' + Y + ' Malware Scanner :' + W + '\n')
+        
         with open('conf/keys.json', 'r') as keyfile:
             json_read = keyfile.read()
         json_load = json.loads(json_read)
         virus_key = json_load['api_keys'][1]['virustotal']
         
         if virus_key == None:
-            print('\n\n' + R + '[-]' + C + ' Please provide a key in ./conf/keys.json ' + W + '\n')
+            print('\n' + R + '[-]' + C + ' Please provide a key in ./conf/keys.json ' + W + '\n')
             return
         else:
             response = requests.get('https://www.virustotal.com/vtapi/v2/url/report?apikey=' + virus_key + '&resource=' + target)
             json_data = json.loads(response.text)
 
             count = 0
-            print ('\n\n' + G + '[+]' + Y + ' Malware Scanner :' + W + '\n')
             for k,v in json_data.items():
                 if k != 'scans':
                     print(G + '[+] ' +  C + str(k).capitalize() + ' : ' + W + str(v))
