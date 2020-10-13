@@ -103,19 +103,21 @@ def scanSite(target, output, data):
         except:
             positives.append('Could not retrieve X-AspNetMvc-Version')
 
-        # Insecure communication
+        # Insecure communication & Unencrypted password submissions & Strict-Transport-Security
         if target.startswith('http://'):
             negatives.append('The network communication is not secure')
-        elif target.startswith('https://'):
-            positives.append('The network communication is secure with SSL')
-        else:
-            pass
-
-        # Unencrypted password submissions
-        if target.startswith('http://'):
             negatives.append('Passwords are submitted unencrypted over the network')
         elif target.startswith('https://'):
+            positives.append('The network communication is secure with SSL')
             positives.append('Data is encrypted over the network')
+            try:
+                strict_transport_security = responds.headers.get('Strict-Transport-Security')
+                if strict_transport_security != None:
+                    negatives.append('Strict-Transport-Security is not set for ensuring SSL Encryption')
+                else:
+                    positives.append('Strict-Transport-Security is set, ensured SSL Encryption')
+            except:
+                negatives.append('Could not retrieve Strict-Transport-Security for ensuring SSL Encryption')
         else:
             pass
 
