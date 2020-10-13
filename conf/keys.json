@@ -2,7 +2,7 @@
     "api_keys": [
         {
             "facebook": null
-        }
+        },
         {
             "virustotal": null
         }
