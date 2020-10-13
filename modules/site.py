@@ -32,7 +32,7 @@ def scanSite(target, output, data):
         try:
             server_info = responds.headers.get('Server')
             if server_info != None:
-                negatives.append('Server Information is not configured to be hidden on HTTP responses header : ' + server_info)
+                negatives.append('Server Information is not configured to be hidden HTTP responses header : ' + server_info)
                 if not (server_info.strip().startswith('Apache')):
                     pass
                 else:
