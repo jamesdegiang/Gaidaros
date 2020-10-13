@@ -21,34 +21,38 @@ def scanVirus(target, output, data):
         json_load = json.loads(json_read)
         virus_key = json_load['api_keys'][1]['virustotal']
         
-        response = requests.get('https://www.virustotal.com/vtapi/v2/url/report?apikey=' + virus_key + '&resource=' + target)
-        json_data = json.loads(response.text)
-        
-        count = 0
-        print ('\n\n' + G + '[+]' + Y + ' Malware Scanner :' + W + '\n')
-        for k,v in json_data.items():
-            if k != 'scans':
-                print(G + '[+] ' +  C + str(k).capitalize() + ' : ' + W + str(v))
-            elif k == 'scans':
-                print(G + '[+] ' +  C + str(k).capitalize() + ' :' + W)
-                for engine in v.items():
-                    if (engine[1].get('detected') == False):
-                        print('      |--  ' + C + engine[0] + ' : ' + G + str(engine[1]) + W)
-                    elif(engine[1].get('detected') == True):
-                        print('      |--  ' + C + engine[0] + ' : ' + R + str(engine[1]) + W)
-                        count = count + 1
-                    if output != 'None':
-                            result.update({engine[0]:engine[1]})
-                result.update({'Positives':count})
+        if virus_key == None:
+            print('\n\n' + R + '[-]' + C + ' Please provide a key in ./conf/keys.json ' + W)
+            return
+        else:
+            response = requests.get('https://www.virustotal.com/vtapi/v2/url/report?apikey=' + virus_key + '&resource=' + target)
+            json_data = json.loads(response.text)
+
+            count = 0
+            print ('\n\n' + G + '[+]' + Y + ' Malware Scanner :' + W + '\n')
+            for k,v in json_data.items():
+                if k != 'scans':
+                    print(G + '[+] ' +  C + str(k).capitalize() + ' : ' + W + str(v))
+                elif k == 'scans':
+                    print(G + '[+] ' +  C + str(k).capitalize() + ' :' + W)
+                    for engine in v.items():
+                        if (engine[1].get('detected') == False):
+                            print('      |--  ' + C + engine[0] + ' : ' + G + str(engine[1]) + W)
+                        elif(engine[1].get('detected') == True):
+                            print('      |--  ' + C + engine[0] + ' : ' + R + str(engine[1]) + W)
+                            count = count + 1
+                        if output != 'None':
+                                result.update({engine[0]:engine[1]})
+                    result.update({'Positives':count})
+                else:
+                    pass
+
+            if count > 0:
+                print('\n' + R + '[!] ' + str(count) + ' total engines confirmed your site is malicious. Your site is malicious, check data for more info')
+            elif count == 0:
+                print('\n' + G + '[+] ' + str(count) + ' total engines detected any malware. Your site looks secure')
             else:
                 pass
-
-        if count > 0:
-            print('\n' + R + '[!] ' + str(count) + ' total engines confirmed your site is malicious. Your site is malicious, check data for more info')
-        elif count == 0:
-            print('\n' + G + '[+] ' + str(count) + ' total engines detected any malware. Your site looks secure')
-        else:
-            pass
             
     except Exception as e:
         print('\n\n' + R + '[-]' + C + ' Exception : ' + W + str(e))
