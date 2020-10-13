@@ -60,8 +60,7 @@ def scanSite(target, output, data):
                 test_404_responds = requests.get(target + '/' + test_hash)
                 if test_404_responds.status_code == 404:
                     if 'Apache/' in test_404_responds.text and ('The requested URL /' + test_hash + ' was not found on this server.') in test_404_responds.text:
-                        test_apache_version = re.findall('Apache/[0-3].\\d+.?.* Server', test_404_responds.text)[0]
-                        negatives.append('404 Reponses exposed sensitive data about Web Server : ' + test_apache_version)
+                        negatives.append('404 Reponses exposed sensitive data about Web Server')
                         test_bool = True
                         break
                     else:
