@@ -43,7 +43,7 @@ sudo python3 gaidaros.py -h
 ```
 Supply with your own apikeys in order to use some modules
 ```
-nano ./conf/api_keys.json
+nano ./conf/keys.json
 ```
 
 ## Video
