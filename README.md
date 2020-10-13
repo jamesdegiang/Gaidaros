@@ -41,6 +41,10 @@ Using help command for a list of usage
 ```bash
 sudo python3 gaidaros.py -h
 ```
+Supply with your own apikeys in order to use some modules
+```
+nano ./conf/api_keys.json
+```
 
 ## Video
 [![donkey_thumbnail](https://img.youtube.com/vi/BbYwEgnk1dE/0.jpg)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
