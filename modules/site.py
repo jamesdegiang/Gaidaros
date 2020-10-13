@@ -59,7 +59,7 @@ def scanSite(target, output, data):
                 test_hash = hashlib.sha3_512((str(test_number) + test_public_salt).encode()).hexdigest()
                 test_404_responds = requests.get(target + '/' + test_hash)
                 if test_404_responds.status_code == 404:
-                    if 'Apache/' in test_404_responds.text and ('The requested URL /' + test_hash + ' was not found on this server.') in responds.text:
+                    if 'Apache/' in test_404_responds.text and ('The requested URL /' + test_hash + ' was not found on this server.') in test_404_responds.text:
                         test_apache_version = re.search('Apache/[0-3].\\d+.?(.*) Server', test_404_responds.text).group(1)
                         negatives.append('404 Reponses exposed sensitive data : ' + test_apache_version)
                         test_bool = True
