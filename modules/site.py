@@ -32,7 +32,7 @@ def scanSite(target, output, data):
         try:
             server_info = responds.headers.get('Server')
             if server_info != None:
-                negatives.append('Server Information is not configured to be hidden : ' + server_info)
+                negatives.append('Server Information is not configured to be hidden on HTTP responses header : ' + server_info)
                 if not (server_info.strip().startswith('Apache')):
                     pass
                 else:
@@ -54,14 +54,14 @@ def scanSite(target, output, data):
         try:
             test_number = 0
             test_bool = False
-            while test_number < 10:
+            while test_number < 3:
                 test_public_salt = 'SAlTACTUALLYjustARANDomStr1ng_veryUniqUEyo!'
                 test_hash = hashlib.sha3_512((str(test_number) + test_public_salt).encode()).hexdigest()
                 test_404_responds = requests.get(target + '/' + test_hash)
                 if test_404_responds.status_code == 404:
                     if 'Apache/' in test_404_responds.text and ('The requested URL /' + test_hash + ' was not found on this server.') in test_404_responds.text:
                         test_apache_version = re.findall('Apache/[0-3].\\d+.?.* Server', test_404_responds.text)[0]
-                        negatives.append('404 Reponses exposed sensitive data : ' + test_apache_version)
+                        negatives.append('404 Reponses exposed sensitive data about Web Server : ' + test_apache_version)
                         test_bool = True
                         break
                     else:
