@@ -24,7 +24,7 @@ def scanVirus(target, output, data):
         virus_key = json_load['api_keys'][1]['virustotal']
         
         if virus_key == None:
-            print('\n' + R + '[-]' + C + ' Please provide a key in ./conf/keys.json ' + W + '\n')
+            print(R + '[-]' + C + ' Please provide a key in ./conf/keys.json ' + W + '\n')
             return
         else:
             response = requests.get('https://www.virustotal.com/vtapi/v2/url/report?apikey=' + virus_key + '&resource=' + target)
