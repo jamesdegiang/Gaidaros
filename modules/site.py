@@ -39,9 +39,10 @@ def scanSite(target, output, data):
                     # Detect Apache Outdated version
                     apache_version = re.search('Apache/(.*) ', server_info).group(1)
                     if re.search("3.\\d+.?", apache_version):
+                        positives.append('Apache Version seems up-to-date : ' + apache_version)
                         pass
                     elif re.search("[0-2].\\d+.?", apache_version):
-                        negatives.append('Outdated Apache Web Server Version', apache_version)
+                        negatives.append('Outdated Apache Web Server Version detected : ' + apache_version)
                     else:
                         pass
             else:
