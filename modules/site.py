@@ -219,12 +219,32 @@ def scanSite(target, output, data):
         except:
             negatives.append('Could not retrieve Access-Control-Allow-Origin')
         
+        # Missing HTTP Security Referrer-Policy Header
+        try:
+            access_control_allow_origin = responds.headers.get('Referrer-Policy')
+            if access_control_allow_origin != None:
+                positives.append('Referrer-Policy is set, site information is under control')
+            else:
+                negatives.append('Referrer-Policy is not set, site information is not under control')
+        except:
+            negatives.append('Could not retrieve Referrer-Policy')
+
+        # Missing HTTP Security Permissions-Policy Header
+        try:
+            access_control_allow_origin = responds.headers.get('Permissions-Policy')
+            if access_control_allow_origin != None:
+                positives.append('Permissions-Policy is set, featured site APIs are under control')
+            else:
+                negatives.append('Permissions-Policy is not set, site APIs are not under-control')
+        except:
+            negatives.append('Could not retrieve Permissions-Policy')
+
         print()
         for negative in negatives:
-            print(R + '[!] ' + negative)
+            print(R + '[!] ' + negative + '\n')
             negatives_rp.append(negative + '\n')
         for positive in positives:
-            print(G + '[+] ' + positive)
+            print(G + '[+] ' + positive + '\n')
         
         if output != 'None':
             result['Negatives'] = negatives_rp
