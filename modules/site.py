@@ -238,13 +238,12 @@ def scanSite(target, output, data):
                 negatives.append('Permissions-Policy is not set, site APIs are not under-control')
         except:
             negatives.append('Could not retrieve Permissions-Policy')
-
-        print()
+                 
         for negative in negatives:
-            print(R + '[!] ' + negative + '\n')
+            print('\n' + R + '[!] ' + negative)
             negatives_rp.append(negative + '\n')
         for positive in positives:
-            print(G + '[+] ' + positive + '\n')
+            print('\n' + G + '[+] ' + positive)
         
         if output != 'None':
             result['Negatives'] = negatives_rp
