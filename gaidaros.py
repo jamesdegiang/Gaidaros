@@ -124,7 +124,7 @@ light = args.light
 # Reports args
 
 # Full Scan args
-full = args.virus
+full = args.full
 
 threads = args.t
 tout = args.T
