@@ -46,6 +46,8 @@ version = '1.0.0'
 
 parser = argparse.ArgumentParser(description='Gaidaros - The Land of The Broken Minds | v{}'.format(version))
 parser.add_argument('url', help='Target URL')
+
+# Recon parser
 parser.add_argument('--headers', help='Header Information', action='store_true')
 parser.add_argument('--sslinfo', help='SSL Certificate Information', action='store_true')
 parser.add_argument('--whois', help='Whois Lookup', action='store_true')
@@ -55,14 +57,21 @@ parser.add_argument('--sub', help='Sub-Domain Enumeration', action='store_true')
 parser.add_argument('--trace', help='Traceroute', action='store_true')
 parser.add_argument('--dir', help='Directory Search', action='store_true')
 parser.add_argument('--ps', help='Fast Port Scan', action='store_true')
-
 parser.add_argument('--geo', help='Geography IP', action='store_true')
-
 parser.add_argument('--recon', help='Full Recon', action='store_true')
 
+# Light Scan parser
 parser.add_argument('--cve', help='Potential Apache CVE', action='store_true')
 parser.add_argument('--site', help='Site Vulnerabilities Scanner', action='store_true')
 parser.add_argument('--virus', help='Malware URL Scanner', action='store_true')
+parser.add_argument('--light', help='Web Light Scan', action='store_true')
+
+# OWASP Scan parser
+
+# Report parser
+
+# Full Scan parser
+parser.add_argument('--full', help='Full Scan', action='store_true')
 
 ext_help = parser.add_argument_group('Extra Options')
 ext_help.add_argument('-t', type=int, help='Number of Threads [ Default : 30 ]')
@@ -90,6 +99,8 @@ ext_help.set_defaults(
 	o='txt')
 
 args = parser.parse_args()
+
+# Recon args
 target = args.url
 headinfo = args.headers
 sslinfo = args.sslinfo
@@ -99,14 +110,21 @@ dns = args.dns
 trace = args.trace
 dirrec = args.dir
 pscan = args.ps
-
 geo = args.geo
-
 recon = args.recon
 
+# Light Scan args
 cve = args.cve
 site = args.site
 virus = args.virus
+light = args.light
+
+# OWASP Scan args
+
+# Reports args
+
+# Full Scan args
+full = args.virus
 
 threads = args.t
 tout = args.T
@@ -116,7 +134,7 @@ sslv = args.s
 dserv = args.d
 filext = args.e
 subd = args.sub
-mode = args.m 
+mode = args.m
 port = args.p
 tr_tout = args.tt
 output = args.o
@@ -166,33 +184,69 @@ def ver_check():
 		print('\n\n' + R + '[-]' + C + ' Exception : ' + W + str(e))
 		sys.exit()
 
+# Full Recon
 def full_recon():
 	from modules.geo import geoip
-	from modules.sslinfo import cert
-	from modules.crawler import crawler
 	from modules.headers import headers
-	from modules.dns import dnsrec
+	from modules.sslinfo import cert
 	from modules.whois import whois_lookup
-	from modules.dirrec import hammer
 	from modules.portscan import ps
+	from modules.dns import dnsrec
 	from modules.subdom import subdomains
-	headers(target, output, data)
+	from modules.crawler import crawler
+	from modules.dirrec import hammer
+	# 1. Geo-IP
 	geoip(ip, output, data)
+	# 2. HTTP Headers
+	headers(target, output, data)
+	# 3. SSL Cert Information
 	if target.startswith('https://'):
 		cert(hostname, output, data)
 	else:
 		print('\n' + Y + '[!]' + ' Skipping SSL Certification Scan ' + W)
 		pass
+	# 4. Whois Lookup
 	whois_lookup(ip, output, data)
+	# 5. Port Scan
+	ps(ip, output, data)
+	# 6. DNS Enumeration
 	dnsrec(domain, output, data)
+	# 7. Sub-Domain Enumeration
 	if type_ip == False:
 		subdomains(domain, tout, output, data)
 	else:
 		print('\n' + Y + '[!]' + ' Skipping Sub-Domain Enumeration ' + W)
 		pass
-	ps(ip, output, data)
+	# 8. Web Crawling
 	crawler(target, output, data)
+	# 9. Directory Traversing
 	hammer(target, threads, tout, wdlist, redir, sslv, dserv, output, data, filext)
+
+# Light Scan
+def light_scan():
+	from modules.apacheScan_CVE import checkVulns
+	from modules.site import scanSite
+	from modules.virus import scanVirus
+	# 1. CVE Checkers
+	checkVulns(target, output, data)
+	# 2. Site Vulnerabilities Scan
+	scanSite(target, output, data)
+	# 3. Virus Scan
+	scanVirus(target, output, data)
+
+# OWASP Scan
+
+# Reports
+
+# Full Scan
+def full_scan():
+	# 1. Reconnaisance
+	full_recon()
+	# 2. Light Vuln Scan
+	light_scan()
+	# 3. OWASP Scan
+	# 4. Reports
+
 
 try:
 	banner()
@@ -317,7 +371,13 @@ try:
 		from modules.virus import scanVirus
 		scanVirus(target, output, data)
 	
-	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, site, virus]) != True:
+	if light == True:
+		light_scan()
+
+	if full == True:
+		full_scan()
+	
+	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, site, virus, light, full]) != True:
 		print ('\n' + R + '[-] Error : ' + C + 'Atleast One Argument is Required with URL' + W)
 		output = 'None'
 		sys.exit()
