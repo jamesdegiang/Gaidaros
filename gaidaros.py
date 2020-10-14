@@ -4,16 +4,21 @@ import os
 import sys
 import atexit
 import importlib.util
+import platform
+import argparse
 
+
+# Colors
 R = '\033[31m' # red
 G = '\033[32m' # green
 C = '\033[36m' # cyan
 W = '\033[0m'  # white
 Y = '\033[33m' # yellow
 
+
 fail = False
 
-import platform
+# Check platform and privilege
 if platform.system() == 'Linux':
 	if os.geteuid() != 0:
 		print('\n' + R + '[-]' + C + ' Please Run as Root!' + '\n')
@@ -22,6 +27,8 @@ if platform.system() == 'Linux':
 		pass
 else:
 	pass
+
+# Check and Install Packages
 path_to_script = os.path.dirname(os.path.realpath(__file__))
 
 with open(path_to_script + '/requirements.txt', 'r') as rqr:
@@ -40,10 +47,10 @@ if fail == True:
 	print('\n' + R + '[-]' + C + ' Please Execute ' + W + 'pip3 install -r requirements.txt' + C + ' to Install Missing Packages' + W + '\n')
 	exit()
 
-import argparse
-
+# Code version
 version = '1.0.0'
 
+# parser
 parser = argparse.ArgumentParser(description='Gaidaros - The Land of The Broken Minds | v{}'.format(version))
 parser.add_argument('url', help='Target URL')
 
