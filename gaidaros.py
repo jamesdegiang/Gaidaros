@@ -55,31 +55,40 @@ parser = argparse.ArgumentParser(description='Gaidaros - The Land of The Broken 
 parser.add_argument('url', help='Target URL')
 
 # Recon parser
-parser.add_argument('--headers', help='Header Information', action='store_true')
-parser.add_argument('--sslinfo', help='SSL Certificate Information', action='store_true')
-parser.add_argument('--whois', help='Whois Lookup', action='store_true')
-parser.add_argument('--crawl', help='Crawl Target', action='store_true')
-parser.add_argument('--dns', help='DNS Enumeration', action='store_true')
-parser.add_argument('--sub', help='Sub-Domain Enumeration', action='store_true')
-parser.add_argument('--trace', help='Traceroute', action='store_true')
-parser.add_argument('--dir', help='Directory Search', action='store_true')
-parser.add_argument('--ps', help='Fast Port Scan', action='store_true')
-parser.add_argument('--geo', help='Geography IP', action='store_true')
-parser.add_argument('--recon', help='Full Recon', action='store_true')
+recon_help = parser.add_argument_group('Recon Options')
+recon_help.add_argument('--headers', help='Header Information', action='store_true')
+recon_help.add_argument('--sslinfo', help='SSL Certificate Information', action='store_true')
+recon_help.add_argument('--whois', help='Whois Lookup', action='store_true')
+recon_help.add_argument('--crawl', help='Crawl Target', action='store_true')
+recon_help.add_argument('--dns', help='DNS Enumeration', action='store_true')
+recon_help.add_argument('--sub', help='Sub-Domain Enumeration', action='store_true')
+recon_help.add_argument('--trace', help='Traceroute', action='store_true')
+recon_help.add_argument('--dir', help='Directory Search', action='store_true')
+recon_help.add_argument('--ps', help='Fast Port Scan', action='store_true')
+recon_help.add_argument('--geo', help='Geography IP', action='store_true')
+recon_help.add_argument('--recon', help='Full Recon', action='store_true')
 
 # Light Scan parser
-parser.add_argument('--cve', help='Potential Apache CVE', action='store_true')
-parser.add_argument('--site', help='Site Vulnerabilities Scanner', action='store_true')
-parser.add_argument('--virus', help='Malware URL Scanner', action='store_true')
-parser.add_argument('--light', help='Web Light Scan', action='store_true')
+light_help = parser.add_argument_group('Light Scan Options')
+light_help.add_argument('--cve', help='Potential Apache CVE', action='store_true')
+light_help.add_argument('--site', help='Site Vulnerabilities Scanner', action='store_true')
+light_help.add_argument('--virus', help='Malware URL Scanner', action='store_true')
+light_help.add_argument('--light', help='Full Web Light Scan', action='store_true')
 
 # OWASP Scan parser
+owasp_help = parser.add_argument_group('OWASP Scan Options')
+owasp_help.add_argument('--xss', help='Cross Site Scripting', action='store_true')
+owasp_help.add_argument('--owasp', help='Full OWASP Scan', action='store_true')
 
 # Report parser
+report_help = parser.add_argument_group('Report Options')
+report_help.add_argument('--report', help='Post-scan Reporting', action='store_true')
 
 # Full Scan parser
-parser.add_argument('--full', help='Full Scan', action='store_true')
+full_help = parser.add_argument_group('Full Scan Options')
+full_help.add_argument('--full', help='Full Scan', action='store_true')
 
+# Extra Options parser
 ext_help = parser.add_argument_group('Extra Options')
 ext_help.add_argument('-t', type=int, help='Number of Threads [ Default : 30 ]')
 ext_help.add_argument('-T', type=float, help='Request Timeout [ Default : 30.0 ]')
