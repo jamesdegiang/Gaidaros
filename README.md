@@ -22,6 +22,11 @@ Gaidaros specializes in Reconnaissance Phase and get the most out of it. This is
 - Common Web Application Vuln Scanner
 - Post-scan Reporting
 
+## Tested on
+
+- Kali Linux
+> Most of the required packages are already pre-installed on Kali Linux 
+
 ## Installation
 
 Preferably, you can download Gaidaros by cloning the Git repository:
