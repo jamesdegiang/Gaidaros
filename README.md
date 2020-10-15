@@ -13,7 +13,18 @@ Gaidaros - The Land of The Broken Minds
 
 Gaidaros is designed to be a fast and simple open-source vulnerability security scanner and penetration testing tool concentrating on Apache Web Server. The tool follows the rule of pentesting checklist that automates the process of detecting and exploiting the target Web Server and its Web Applications' vulnerabilities, also helps minimizing the time and effort of anyone looking forward to pentest a particular Web Server, also providing well-designed afterward reports. It comes with a powerful detection engine, numerous niche features for the ultimate penetration tester.
 
-Gaidaros specializes in the Reconnaissance Phase and gets the most out of it. This is not recommended to be a replacement for pentesters. All you need is the target url, and you are ready to go.
+Gaidaros specializes in the Reconnaissance Phase with the help of OSINT Framework and gets the most out of it, following with that is the OWASP pentesting checklist and their most statistically common vulnerabilities. However, this tool, by any means, is not recommended to be a replacement for pentesters, it can only be recommended to be used as a versatile quick scanner and a helpful time saver. All you need is the target url, and you are ready to go.
+
+## Featured 
+
+- [Apache-Vulns](https://github.com/styx00/Apache-Vulns)
+- [Python for OSINT Tooling](https://hakin9.org/product/python-for-osint-tooling/)
+
+
+## Tested on
+
+- Kali Linux
+> Most of the required packages are already pre-installed on Kali Linux 
 
 ## Features
 
@@ -21,11 +32,6 @@ Gaidaros specializes in the Reconnaissance Phase and gets the most out of it. Th
 - Apache Vuln Scanner
 - Common Web Application Vuln Scanner
 - Post-scan Reporting
-
-## Tested on
-
-- Kali Linux
-> Most of the required packages are already pre-installed on Kali Linux 
 
 ## Installation
 
