@@ -30,11 +30,11 @@ Gaidaros specializes in Reconnaissance Phase and get the most out of it. This is
 ## Installation
 
 Gaidaros is a Python script so you need [Python](https://www.python.org/downloads/) to run this program
-```
+```bash
 sudo apt install python3
 ```
 Also, pip3 is needed for the essential python packages
-```
+```bash
 sudo apt install python3-pip
 ```
 Preferably, you can download Gaidaros by cloning the Git repository:
