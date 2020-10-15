@@ -15,6 +15,11 @@ Gaidaros is designed to be a fast and simple open-source vulnerability security 
 
 Gaidaros specializes in the Reconnaissance Phase and gets the most out of it. This is not recommended to be a replacement for pentesters. All you need is the target url, and you are ready to go.
 
+## Featured
+
+- [Apache-Vulns](https://github.com/styx00/Apache-Vulns)
+- FinalRecon
+
 ## Features
 
 - Full Reconnaissance
