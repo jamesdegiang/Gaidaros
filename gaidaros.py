@@ -53,19 +53,19 @@ version = '1.0.0'
 # parser
 parser = argparse.ArgumentParser(description='Gaidaros - The Land of The Broken Minds | v{}'.format(version))
 parser.add_argument('url', help='Target URL')
+parser.add_argument('--trace', help='Traceroute', action='store_true')
 
 # Recon parser
 recon_help = parser.add_argument_group('Recon Options')
+recon_help.add_argument('--geo', help='Geography IP', action='store_true')
 recon_help.add_argument('--headers', help='Header Information', action='store_true')
 recon_help.add_argument('--sslinfo', help='SSL Certificate Information', action='store_true')
 recon_help.add_argument('--whois', help='Whois Lookup', action='store_true')
-recon_help.add_argument('--crawl', help='Crawl Target', action='store_true')
+recon_help.add_argument('--ps', help='Fast Port Scan', action='store_true')
 recon_help.add_argument('--dns', help='DNS Enumeration', action='store_true')
 recon_help.add_argument('--sub', help='Sub-Domain Enumeration', action='store_true')
-recon_help.add_argument('--trace', help='Traceroute', action='store_true')
+recon_help.add_argument('--crawl', help='Crawl Target', action='store_true')
 recon_help.add_argument('--dir', help='Directory Search', action='store_true')
-recon_help.add_argument('--ps', help='Fast Port Scan', action='store_true')
-recon_help.add_argument('--geo', help='Geography IP', action='store_true')
 recon_help.add_argument('--recon', help='Full Recon', action='store_true')
 
 # Light Scan parser
