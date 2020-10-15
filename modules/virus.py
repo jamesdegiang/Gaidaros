@@ -9,10 +9,6 @@ W = '\033[0m'  # white
 Y = '\033[33m' # yellow
 
 
-# Provide your apikey
-api_key = ''
-
-
 def scanVirus(target, output, data):
     result = {}
     try:
