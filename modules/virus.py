@@ -61,4 +61,4 @@ def scanVirus(target, output, data):
         print()
 
 def scanVirus_output(output, data, result):
-    data['module-Virus Total'] = result
+    data['module-VirusTotal'] = result
