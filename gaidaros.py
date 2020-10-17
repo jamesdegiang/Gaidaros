@@ -393,10 +393,6 @@ try:
 	if light == True:
 		light_scan()
 		
-	if report == True:
-		from modules.report import report
-		report(target)
-
 	if full == True:
 		full_scan()
 	
@@ -415,7 +411,11 @@ try:
 		if output != 'None':
 			output['export'] = True
 			export(output, data)
-
+	
+	if report == True:
+		from modules.report import report
+		report(target)
+		
 	sys.exit()
 except KeyboardInterrupt:
 	print (R + '[-]' + C + ' Keyboard Interrupt.' + W + '\n')
