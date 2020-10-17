@@ -411,10 +411,9 @@ try:
 		if output != 'None':
 			output['export'] = True
 			export(output, data)
-	
-	if report == True:
-		from modules.report import report
-		report(target)
+		if report == True:
+			from modules.report import report
+			report(target)
 		
 	sys.exit()
 except KeyboardInterrupt:
