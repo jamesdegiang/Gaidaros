@@ -404,13 +404,11 @@ try:
 	end_time = datetime.datetime.now() - start_time
 	print ('\n' + G + '[+]' + C + ' Completed in ' + W + str(end_time) + '\n')
 
-	@atexit.register
-	def call_export():
-		meta.update({'End Time': str(datetime.datetime.now().strftime('%I:%M:%S %p'))})
-		meta.update({'Completion Time': str(end_time)})
-		if output != 'None':
-			output['export'] = True
-			export(output, data)
+	meta.update({'End Time': str(datetime.datetime.now().strftime('%I:%M:%S %p'))})
+	meta.update({'Completion Time': str(end_time)})
+	if output != 'None':
+		output['export'] = True
+		export(output, data)
 			
 	if report == True:
 		from modules.report import report
