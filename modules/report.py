@@ -44,6 +44,7 @@ def report(target):
         apache_cve(logs, document)
         site(logs, document)
         document.save(doc_file_path)
+        print('\n' + G + '[+]' + C + ' Report generated : ' + W + doc_file_path + '\n')
     except Exception as e:
         print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
 
