@@ -8,7 +8,7 @@
 
 Gaidaros - The Land of The Broken Minds
 <br/><br/><br/>
-<img src="https://github.com/Ch3lLIST4/Gaidaros/blob/main/images/banner.jpg" alt="donkey_banner" max-height="600">
+<img src="https://github.com/Ch3lLIST4/Gaidaros/blob/main/images/banner.jpg" alt="donkey_banner">
 <br/><br/>
 
 Gaidaros is designed to be a fast and simple open-source vulnerability security scanner and penetration testing tool concentrating on Apache Web Server. The tool follows the rule of pentesting checklist that automates the process of detecting and exploiting the target Web Server and its Web Applications' vulnerabilities, also helps minimizing the time and effort of anyone looking forward to pentest a particular Web Server, and finally providing well-designed afterward reports. It comes with a powerful detection engine, numerous niche features for the ultimate penetration tester.
@@ -63,6 +63,10 @@ sudo python3 gaidaros.py -h
 Supply with your own apikeys in order to use some modules
 ```bash
 nano ./conf/keys.json
+```
+Btw you need to install python-docx package for Python3 to generate report
+```bash
+pip3 install python-docx
 ```
 
 ## Video
