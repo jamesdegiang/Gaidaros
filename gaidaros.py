@@ -82,13 +82,13 @@ owasp_help.add_argument('--sql', help='SQL Injection Scripting - UNDER DEVELOPME
 owasp_help.add_argument('--csrf', help='Cross Site Request Forgery - UNDER DEVELOPMENT', action='store_true')
 owasp_help.add_argument('--owasp', help='Full OWASP Scan - UNDER DEVELOPMENT', action='store_true')
 
-# Report parser
-report_help = parser.add_argument_group('Report Options')
-report_help.add_argument('--report', help='Post-scan Reporting', action='store_true')
-
 # Full Scan parser
 full_help = parser.add_argument_group('Full Scan Options')
 full_help.add_argument('--full', help='Full Scan', action='store_true')
+
+# Report parser
+report_help = parser.add_argument_group('Report Options')
+report_help.add_argument('--report', help='Post-scan Reporting', action='store_true')
 
 # Extra Options parser
 ext_help = parser.add_argument_group('Extra Options')
@@ -139,11 +139,11 @@ light = args.light
 
 # OWASP Scan args
 
-# Reports args
-report = args.report
-
 # Full Scan args
 full = args.full
+
+# Reports args
+report = args.report
 
 threads = args.t
 tout = args.T
@@ -254,8 +254,6 @@ def light_scan():
 	scanVirus(target, output, data)
 
 # OWASP Scan
-
-# Reports
 
 # Full Scan
 def full_scan():
