@@ -26,19 +26,23 @@ def checkVulns(target, output, data):
         
         responds = requests.get(target)
         server_name = responds.headers.get('Server')
-        if not (server_name.strip().startswith('Apache')):
-            print(R + '[-]' + C + ' Server does not seem to be an Apache Server : ' + W + server_name + '\n')
-            return
-        else:
-            print(G + '[+]' + C + ' Apache Server detected : ' + W + server_name + '\n')
-            apache_version = re.search('Apache/(.*) ', server_name).group(1)
-            x = re.search("[0-3].\\d+.?", apache_version)
-            if x:
-                print(G + '[+]' + C + ' Apache Version detected : ' + W + apache_version + '\n')
-            else:
-                print(R + '[-]' + C + ' Could not retrieve Apache Version : ' + W + apache_version + '\n')
+        if server_name != None:
+            if not (server_name.strip().startswith('Apache')):
+                print(R + '[-]' + C + ' Server does not seem to be an Apache Server : ' + W + server_name + '\n')
                 return
-
+            else:
+                print(G + '[+]' + C + ' Apache Server detected : ' + W + server_name + '\n')
+                apache_version = re.search('Apache/(.*) ', server_name).group(1)
+                x = re.search("[0-3].\\d+.?", apache_version)
+                if x:
+                    print(G + '[+]' + C + ' Apache Version detected : ' + W + apache_version + '\n')
+                else:
+                    print(R + '[-]' + C + ' Could not retrieve Apache Version : ' + W + apache_version + '\n')
+                    return
+        else:
+            print(R + '[-]' + C + ' Could not retrieve Server Type, please recheck your url' + W + '\n')
+            return
+        
         cve_path = './dictionary/apache_CVE.txt'
               
         print(G + '[+]' + C + ' CVE Path : ' + W + cve_path)
