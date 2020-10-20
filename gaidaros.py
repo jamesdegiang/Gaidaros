@@ -331,7 +331,7 @@ try:
 		headers(target, output, data)
 
 	if sslinfo == True and target.startswith('https://'):
-		from modules.sslinfo import cert
+		from modules.recons.sslinfo import cert
 		cert(hostname, output, data)
 	elif sslinfo == True and not target.startswith('https://'):
 		print('\n' + R + '[-]' + C + ' SSL Certification Scan is Not Supported for HTTP protocol' + W + '\n')
