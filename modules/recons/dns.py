@@ -66,9 +66,9 @@ def dnsrec(domain, output, data):
 				result.setdefault('dmarc', ['DMARC Record Not Found!'])
 
 	except Exception as e:
-        print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
-        if output != 'None':
-            result.update({'Exception':str(e)})
+		print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
+		if output != 'None':
+			result.update({'Exception':str(e)})
 
 	if output != 'None':
 		dns_export(output, data, result)
