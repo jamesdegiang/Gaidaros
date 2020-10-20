@@ -205,15 +205,15 @@ def ver_check():
 
 # Full Recon
 def full_recon():
-	from modules.geo import geoip
-	from modules.headers import headers
-	from modules.sslinfo import cert
-	from modules.whois import whois_lookup
-	from modules.portscan import ps
-	from modules.dns import dnsrec
-	from modules.subdom import subdomains
-	from modules.crawler import crawler
-	from modules.dirrec import hammer
+	from modules.recons.geo import geoip
+	from modules.recons.headers import headers
+	from modules.recons.sslinfo import cert
+	from modules.recons.whois import whois_lookup
+	from modules.recons.portscan import ps
+	from modules.recons.dns import dnsrec
+	from modules.recons.subdom import subdomains
+	from modules.recons.crawler import crawler
+	from modules.recons.dirrec import hammer
 	# 1. Geo-IP
 	geoip(ip, output, data)
 	# 2. HTTP Headers
@@ -243,9 +243,9 @@ def full_recon():
 
 # Light Scan
 def light_scan():
-	from modules.apacheScan_CVE import checkVulns
-	from modules.site import scanSite
-	from modules.virus import scanVirus
+	from modules.lights.apacheScan_CVE import checkVulns
+	from modules.lights.site import scanSite
+	from modules.lights.virus import scanVirus
 	# 1. CVE Checkers
 	checkVulns(target, output, data)
 	# 2. Site Vulnerabilities Scan
@@ -317,17 +317,17 @@ try:
 			'export': False
 			}
 
-	from modules.export import export
+	from modules.supports.export import export
 	
 	if recon == True:
 		full_recon()
 	
 	if geo == True:
-		from modules.geo import geoip
+		from modules.recons.geo import geoip
 		geoip(ip, output, data)
 	
 	if headinfo == True:
-		from modules.headers import headers
+		from modules.recons.headers import headers
 		headers(target, output, data)
 
 	if sslinfo == True and target.startswith('https://'):
@@ -340,19 +340,19 @@ try:
 		pass
 
 	if whois == True:
-		from modules.whois import whois_lookup
+		from modules.recons.whois import whois_lookup
 		whois_lookup(ip, output, data)
 
 	if crawl == True:
-		from modules.crawler import crawler
+		from modules.recons.crawler import crawler
 		crawler(target, output, data)
 
 	if dns == True:
-		from modules.dns import dnsrec
+		from modules.recons.dns import dnsrec
 		dnsrec(domain, output, data)
 
 	if subd == True and type_ip == False:
-		from modules.subdom import subdomains
+		from modules.recons.subdom import subdomains
 		subdomains(domain, tout, output, data)
 	elif subd == True and type_ip == True:
 		print(R + '[-]' + C + ' Sub-Domain Enumeration is Not Supported for IP Addresses' + W + '\n')
@@ -361,7 +361,7 @@ try:
 		pass
 
 	if trace == True:
-		from modules.traceroute import troute
+		from modules.supports.traceroute import troute
 		if mode == 'TCP' and port == 33434:
 			port = 80
 			troute(ip, mode, port, tr_tout, output, data)
@@ -369,23 +369,23 @@ try:
 			troute(ip, mode, port, tr_tout, output, data)
 
 	if pscan == True:
-		from modules.portscan import ps
+		from modules.recons.portscan import ps
 		ps(ip, output, data)
 
 	if dirrec == True:
-		from modules.dirrec import hammer
+		from modules.recons.dirrec import hammer
 		hammer(target, threads, tout, wdlist, redir, sslv, dserv, output, data, filext)
 	
 	if cve == True:	
-		from modules.apacheScan_CVE import checkVulns
+		from modules.lights.apacheScan_CVE import checkVulns
 		checkVulns(target, output, data)
 	
 	if site == True:
-		from modules.site import scanSite
+		from modules.lights.site import scanSite
 		scanSite(target, output, data)
 	
 	if virus == True:
-		from modules.virus import scanVirus
+		from modules.lights.virus import scanVirus
 		scanVirus(target, output, data)
 	
 	if light == True:
@@ -409,7 +409,7 @@ try:
 		export(output, data)
 			
 	if report == True:
-		from modules.report import report
+		from modules.reports.report import report
 		report(target)
 		
 	sys.exit()
