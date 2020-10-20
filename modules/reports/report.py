@@ -61,7 +61,7 @@ def report(target):
         for level, qty in records:
             row_cells = table.add_row().cells
             row_cells[0].text = level
-            row_cells[1].text = qty
+            row_cells[1].text = str(qty)
             
         table.style = 'Light List Accent 6'
         ##
