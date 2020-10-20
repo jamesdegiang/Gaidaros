@@ -39,10 +39,33 @@ def report(target):
         header.add_run('Target : ').bold = True
         header.add_run(target)
 
+        level_array = [0, 0, 0]
+
+        table = document.add_table(rows=1, cols=2)
+
         doc_file_path = './reports/' + target + '.docx'
-        virus(logs, document)
-        apache_cve(logs, document)
-        site(logs, document)
+        virus(logs, document, level_array)
+        apache_cve(logs, document, level_array)
+        site(logs, document, level_array)
+
+        # create overall table
+        records = (
+            ('High', level_array[2]),
+            ('Medium', level_array[1]),
+            ('Low', level_array[0])
+        )
+
+        hdr_cells = table.rows[0].cells
+        hdr_cells[0].text = 'Risk Level'
+        hdr_cells[1].text = 'Quantity'
+        for level, qty in records:
+            row_cells = table.add_row().cells
+            row_cells[0].text = level
+            row_cells[1].text = qty
+            
+        table.style = 'Light List Accent 6'
+        ##
+
         document.save(doc_file_path)
         print('\n' + G + '[+]' + C + ' Report generated : ' + W + doc_file_path + '\n')
     except Exception as e:
@@ -52,7 +75,7 @@ def report(target):
 ## Light Scan
 
 # 1. Apache CVE
-def apache_cve(logs, document):
+def apache_cve(logs, document, level_array):
     apache_cve_logs = []
     for line in logs:
         if re.search('CVE-\\d{4}-\\d{4}', line):
@@ -67,6 +90,7 @@ def apache_cve(logs, document):
         run = apache_cve_para.add_run('Medium\n')
         font = run.font
         font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+        level_array[1] = level_array[1] + 1
         apache_cve_para.add_run('Risk Description : ').bold = True
         apache_cve_para.add_run('Below are the Web Server Apache CVE we extracted based on your detected current Apache Server version\n')
         apache_cve_para.add_run(cve_data + '\n').italic = True
@@ -75,7 +99,7 @@ def apache_cve(logs, document):
     else:
         pass
 # 2. Site Vulns
-def site(logs, document):
+def site(logs, document, level_array):
     for line in logs:
         # Redirection
         if re.search('Redirections detected on the target', line):
@@ -85,6 +109,7 @@ def site(logs, document):
             run = site_redirection_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[1] = level_array[1] + 1
             site_redirection_para.add_run('Risk Description : ').bold = True
             site_redirection_para.add_run('Without proper validation, attackers can redirect victims to phishing or malware sites, or use forwards to access unauthorized pages\n')
             for line in logs:
@@ -101,6 +126,7 @@ def site(logs, document):
             run = site_server_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[1] = level_array[1] + 1
             site_server_para.add_run('Risk Description : ').bold = True
             site_server_para.add_run('Revealing the specific software version of the server might allow the server machine to become more vulnerable to attacks against software that is known to contain security holes\n')
             site_server_para.add_run(line.strip() + '\n').italic = True
@@ -113,6 +139,7 @@ def site(logs, document):
                 run = site_outdated_apache_para.add_run('Medium\n')
                 font = run.font
                 font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+                level_array[1] = level_array[1] + 1
                 site_outdated_apache_para.add_run('Risk Description : ').bold = True
                 site_outdated_apache_para.add_run('Any old unpatched software presents a risk, same thing happends with Apache Web Server\n')
                 site_outdated_apache_para.add_run(line.strip() + '\n').italic = True
@@ -126,6 +153,7 @@ def site(logs, document):
             run = site_404_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[1] = level_array[1] + 1
             site_404_para.add_run('Risk Description : ').bold = True
             site_404_para.add_run('Any Internet user could see the disclosed information about your webserver via an unhandled 404 HTTP response\n')
             site_404_para.add_run(line.strip() + '\n').italic = True
@@ -139,6 +167,7 @@ def site(logs, document):
             run = site_x_powered_by_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[1] = level_array[1] + 1
             site_x_powered_by_para.add_run('Risk Description : ').bold = True
             site_x_powered_by_para.add_run('X-Powered-By HTTP header contains the information about the collection of application frameworks being run by the site\n')
             site_x_powered_by_para.add_run(line.strip() + '\n').italic = True
@@ -152,6 +181,7 @@ def site(logs, document):
             run = site_aspnet_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[1] = level_array[1] + 1
             site_aspnet_para.add_run('Risk Description : ').bold = True
             site_aspnet_para.add_run('The X-AspNet-Version HTTP Header broadcasts to the world what version of ASP.NET is being used by your web server so the content inside is a thing worth to consider\n')
             for line in logs:
@@ -172,6 +202,7 @@ def site(logs, document):
             run = site_ssl_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[1] = level_array[1] + 1
             site_ssl_para.add_run('Risk Description : ').bold = True
             site_ssl_para.add_run('HTTP data without SSL encryption can be intercepted by third parties to gather data passed between the two systems\n')
             site_ssl_para.add_run('The network communication is not secure\n').italic = True
@@ -186,6 +217,7 @@ def site(logs, document):
             run = site_strict_ssl_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[1] = level_array[1] + 1
             site_strict_ssl_para.add_run('Risk Description : ').bold = True
             site_strict_ssl_para.add_run('Strict-Transport-Security HTTP Security Header is not set, SSL encryption on this site is not guaranteed\n')
             site_strict_ssl_para.add_run(line.strip() + '\n').italic = True
@@ -199,6 +231,7 @@ def site(logs, document):
             run = site_robots_para.add_run('Low\n')
             font = run.font
             font.color.rgb = RGBColor(0x00, 0x80, 0xFF)
+            level_array[0] = level_array[0] + 1
             site_robots_para.add_run('Risk Description : ').bold = True
             site_robots_para.add_run('According to the robots exclusion protocol (REP), the robots.txt file is used by website developers to provide instructions about their site to indexing web robots. However, there are certain risks posed by robots.txt with the very purpose of visiting the disallowed site sections\n')
             site_robots_para.add_run(line.strip() + '\n').italic = True
@@ -212,6 +245,7 @@ def site(logs, document):
             run = site_sitemap_para.add_run('Low\n')
             font = run.font
             font.color.rgb = RGBColor(0x00, 0x80, 0xFF)
+            level_array[0] = level_array[0] + 1
             site_sitemap_para.add_run('Risk Description : ').bold = True
             site_sitemap_para.add_run('If you are a site that suffers particularly from scrapers, for whatever reason, then you may wish to exclude sitemap entries from your robots.txt file such that bad actors cannot find them and use them to expedite their efforts.\n')
             site_sitemap_para.add_run(line.strip() + '\n').italic = True
@@ -225,6 +259,7 @@ def site(logs, document):
             run = site_cookies_secure_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[1] = level_array[1] + 1
             site_cookies_secure_para.add_run('Risk Description : ').bold = True
             site_cookies_secure_para.add_run('Since the Secure flag is not set on the cookie, the browser will send it over an unencrypted channel (plain HTTP) if such a request is made. Thus, the risk exists that an attacker will intercept the clear-text communication between the browser and the server and he will steal the cookie of the user. If this is a session cookie, the attacker could gain unauthorized access to the victim\'s web session\n')
             site_cookies_secure_para.add_run(line.strip() + '\n').italic = True
@@ -238,6 +273,7 @@ def site(logs, document):
             run = site_cookies_httponly_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[1] = level_array[1] + 1
             site_cookies_httponly_para.add_run('Risk Description : ').bold = True
             site_cookies_httponly_para.add_run('Lack of the HttpOnly flag permits the browser to access the cookie from client-side scripts (ex. JavaScript, VBScript, etc). This can be exploited by an attacker in conjuction with a Cross-Site Scripting (XSS) attack in order to steal the affected cookie. If this is a session cookie, the attacker could gain unauthorized access to the victim\'s web session\n')
             site_cookies_httponly_para.add_run(line.strip() + '\n').italic = True
@@ -251,6 +287,7 @@ def site(logs, document):
             run = site_cookies_para.add_run('Medium\n')
             font = run.font
             font.color.rgb = RGBColor(0xFF, 0x80, 0x00)
+            level_array[1] = level_array[1] + 1
             site_cookies_para.add_run('Risk Description : ').bold = True
             site_cookies_para.add_run('We could not retrieve your Set-Cookie HTTP Header. Lacking certain Cookie HTTP security flags could end up making your system vulnerable\n')
             site_cookies_para.add_run(line.strip() + '\n').italic = True
@@ -264,6 +301,7 @@ def site(logs, document):
             run = site_x_xss_protection_para.add_run('Low\n')
             font = run.font
             font.color.rgb = RGBColor(0x00, 0x80, 0xFF)
+            level_array[0] = level_array[0] + 1
             site_x_xss_protection_para.add_run('Risk Description : ').bold = True
             site_x_xss_protection_para.add_run('The X-XSS-Protection HTTP header instructs the browser to stop loading web pages when they detect reflected Cross-Site Scripting (XSS) attacks. Lack of this header exposes application users to XSS attacks in case the web application contains such vulnerability\n')
             site_x_xss_protection_para.add_run(line.strip() + '\n').italic = True
@@ -277,6 +315,7 @@ def site(logs, document):
             run = site_x_content_type_options_para.add_run('Low\n')
             font = run.font
             font.color.rgb = RGBColor(0x00, 0x80, 0xFF)
+            level_array[0] = level_array[0] + 1
             site_x_content_type_options_para.add_run('Risk Description : ').bold = True
             site_x_content_type_options_para.add_run('The HTTP X-Content-Type-Options header is addressed to Internet Explorer browser and prevents it from reinterpreting the content of a web page (MIME-sniffing) and thus overriding the value of the Content-Type header). Lack of this header could lead to attacks such as Cross-Site Scripting or phishing\n')
             site_x_content_type_options_para.add_run(line.strip() + '\n').italic = True
@@ -290,6 +329,7 @@ def site(logs, document):
             run = site_x_frame_options_para.add_run('Low\n')
             font = run.font
             font.color.rgb = RGBColor(0x00, 0x80, 0xFF)
+            level_array[0] = level_array[0] + 1
             site_x_frame_options_para.add_run('Risk Description : ').bold = True
             site_x_frame_options_para.add_run('The X-Frame-Options HTTP response header can be used to indicate whether or not a browser should be allowed to render a page inside a frame or iframe. Sites can use this to avoid clickjacking attacks, by ensuring that their content is not embedded into other sites\n')
             site_x_frame_options_para.add_run(line.strip() + '\n').italic = True
@@ -303,6 +343,7 @@ def site(logs, document):
             run = site_etags_para.add_run('Low\n')
             font = run.font
             font.color.rgb = RGBColor(0x00, 0x80, 0xFF)
+            level_array[0] = level_array[0] + 1
             site_etags_para.add_run('Risk Description : ').bold = True
             site_etags_para.add_run('An inode is a data structure used by the Linux file system. Every file and directory has an inode which stores its name, size and other data. Every inode has a number which uniquely identifies it. There is no benefits in showing this type of information\n')
             site_etags_para.add_run(line.strip() + '\n').italic = True
@@ -316,6 +357,7 @@ def site(logs, document):
             run = site_content_security_policy_options_para.add_run('Low\n')
             font = run.font
             font.color.rgb = RGBColor(0x00, 0x80, 0xFF)
+            level_array[0] = level_array[0] + 1
             site_content_security_policy_options_para.add_run('Risk Description : ').bold = True
             site_content_security_policy_options_para.add_run('Apache HTTP server in certain configurations allows remote attackers to obtain sensitive information via the ETag header, which reveals the inode number, or multipart MIME boundary, which reveals child proccess IDs (PID)\n')
             site_content_security_policy_options_para.add_run(line.strip() + '\n').italic = True
@@ -329,6 +371,7 @@ def site(logs, document):
             run = site_cors_para.add_run('Low\n')
             font = run.font
             font.color.rgb = RGBColor(0x00, 0x80, 0xFF)
+            level_array[0] = level_array[0] + 1
             site_cors_para.add_run('Risk Description : ').bold = True
             site_cors_para.add_run('CORS headers come into play when a client makes a cross-origin request. In that case, the server must indicate that it allows the cross-origin operation otherwise the browser will reject the request. The two important points are that the target server must allow the operation and the client’s browser enforces it. This is a security feature as it protects the user by not letting random websites fetch data from sites he is logged in\n')
             site_cors_para.add_run(line.strip() + '\n').italic = True
@@ -342,6 +385,7 @@ def site(logs, document):
             run = site_referrer_policy_para.add_run('Low\n')
             font = run.font
             font.color.rgb = RGBColor(0x00, 0x80, 0xFF)
+            level_array[0] = level_array[0] + 1
             site_referrer_policy_para.add_run('Risk Description : ').bold = True
             site_referrer_policy_para.add_run('The Referrer-Policy HTTP header controls how much referrer information (sent via the Referer header) should be included with requests\n')
             site_referrer_policy_para.add_run(line.strip() + '\n').italic = True
@@ -355,6 +399,7 @@ def site(logs, document):
             run = site_permissions_policy_para.add_run('Low\n')
             font = run.font
             font.color.rgb = RGBColor(0x00, 0x80, 0xFF)
+            level_array[0] = level_array[0] + 1
             site_permissions_policy_para.add_run('Risk Description : ').bold = True
             site_permissions_policy_para.add_run('The Permissions-Policy HTTP header replaces the existing Feature-Policy header for controlling delegation of permissions and powerful features. The header uses a structured syntax, and allows sites to more tightly restrict which origins can be granted access to features\n')
             site_permissions_policy_para.add_run(line.strip() + '\n').italic = True
@@ -363,7 +408,7 @@ def site(logs, document):
         else:
             pass
 # 3. VirusTotal
-def virus(logs, document):
+def virus(logs, document, level_array):
     for line in logs:
         if re.search('Positives : ', line):
             if re.search('Positives : 0', line):
@@ -375,6 +420,7 @@ def virus(logs, document):
                 run = site_x_frame_options_para.add_run('High\n')
                 font = run.font
                 font.color.rgb = RGBColor(0xFF, 0x00, 0x00)
+                level_array[2] = level_array[2] + 1
                 site_x_frame_options_para.add_run('Risk Description : ').bold = True
                 site_x_frame_options_para.add_run('VirusTotal API detected your site has been affected by malwares. Below is the number of Anti-malware engines which confirmed your site to be malicious\n')
                 site_x_frame_options_para.add_run(line.strip() + '\n').italic = True
