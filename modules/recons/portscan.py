@@ -12,7 +12,7 @@ Y = '\033[33m' # yellow
 def ps(ip, output, data):
 	threads = []
 	result = {}
-	
+
 	try:
 		print('\n\n' + Y + '[!]' + Y + ' Starting Port Scan...' + W + '\n')
 		print(G + '[+]' + C + ' Testing Top 1000 Ports...' + W + '\n')
@@ -28,9 +28,9 @@ def ps(ip, output, data):
 			thread.join()
 	
 	except Exception as e:
-        print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
-        if output != 'None':
-            result.update({'Exception':str(e)})
+		print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
+		if output != 'None':
+			result.update({'Exception':str(e)})
 
 	if output != 'None':
 		ps_output(output, data, result)
