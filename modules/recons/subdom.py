@@ -176,11 +176,11 @@ def subdomains(hostname, tout, output, data):
 				print(G + '[+] ' + C + url)
 
 		print('\n' + G + '[+]' + C + ' Total Found : ' + W + str(total))
-		
+
 	except Exception as e:
-        print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
-        if output != 'None':
-            result.update({'Exception':str(e)})
+		print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
+		if output != 'None':
+			result.update({'Exception':str(e)})
 
 	if output != 'None':
 		result['Links'] = list(found)
