@@ -37,7 +37,7 @@ def report(target):
         header.add_run('Report time : ').bold = True
         header.add_run(time + '\n')
         header.add_run('Target : ').bold = True
-        header.add_run(target)
+        header.add_run(target + '\n')
 
         level_array = [0, 0, 0]
 
@@ -63,7 +63,7 @@ def report(target):
             row_cells[0].text = level
             row_cells[1].text = str(qty)
             
-        table.style = 'Light List Accent 6'
+        table.style = 'Medium Shading 1 Accent 6'
         ##
 
         document.save(doc_file_path)
