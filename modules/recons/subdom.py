@@ -159,22 +159,28 @@ def subdomains(hostname, tout, output, data):
 	global found
 	result = {}
 
-	print('\n\n' + Y + '[!]' + Y + ' Starting Sub-Domain Enumeration...' + W + '\n')
+	try:
+		print('\n\n' + Y + '[!]' + Y + ' Starting Sub-Domain Enumeration...' + W + '\n')
 
-	loop = asyncio.new_event_loop()
-	asyncio.set_event_loop(loop)
-	loop.run_until_complete(query(hostname, tout))
-	loop.close()
+		loop = asyncio.new_event_loop()
+		asyncio.set_event_loop(loop)
+		loop.run_until_complete(query(hostname, tout))
+		loop.close()
 
-	found = set(found)
-	total = len(found)
+		found = set(found)
+		total = len(found)
 
-	if len(found) != 0:
-		print('\n' + G + '[+]' + C + ' Results : ' + W + '\n')
-		for url in found:
-			print(G + '[+] ' + C + url)
+		if len(found) != 0:
+			print('\n' + G + '[+]' + C + ' Results : ' + W + '\n')
+			for url in found:
+				print(G + '[+] ' + C + url)
 
-	print('\n' + G + '[+]' + C + ' Total Found : ' + W + str(total))
+		print('\n' + G + '[+]' + C + ' Total Found : ' + W + str(total))
+		
+	except Exception as e:
+        print('\n' + R + '[-]' + C + ' Exception : ' + W + str(e) + '\n')
+        if output != 'None':
+            result.update({'Exception':str(e)})
 
 	if output != 'None':
 		result['Links'] = list(found)
