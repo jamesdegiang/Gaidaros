@@ -17,7 +17,7 @@ def dnsrec(domain, output, data):
 		types = ['A', 'AAAA', 'ANY', 'CAA', 'CNAME', 'MX', 'NS', 'TXT']
 		full_ans = []
 		for Type in types:
-			print('\n' + Y + '[!]' + C + ' Retrieving ' + Type + ' Record' + W + '\n')
+			print(G + '[+]' + C + ' Retrieving ' + Type + ' Record' + W + '\n')
 			q = dnslib.DNSRecord.question(domain, Type)
 			pkt = q.send('8.8.8.8', 53, tcp='UDP')
 			ans = dnslib.DNSRecord.parse(pkt)
