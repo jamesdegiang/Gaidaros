@@ -125,6 +125,8 @@ def xss(target, output, data):
     xss_data = []
 
     try:
+        print ('\n\n' + G + '[+]' + Y + ' Cross-Site Scripting XSS :' + W + '\n')
+        
         user_agent = {
             'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'
         }
