@@ -112,9 +112,10 @@ def scan_xss(url, value_forms_malforms, xss_data):
 
         if is_vulnerable == True:
             print(R + "[-]" + f" XSS detected on {url}" + W)
+            xss_data.append(f"XSS detected on {url}\n")
         else:
             print(G + "[+]" + f" XSS not detected on {url}" + W)
-            xss_data.append(f"XSS not detected on {url}")
+            xss_data.append(f"XSS not detected on {url}\n")
         
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
@@ -172,7 +173,7 @@ def xss(target, output, data):
             print(R + '[-]' + C + ' Response code returned is not 200' + W)
 
         if output != 'None':
-            result['Negatives'] = xss_data
+            result['XSS'] = xss_data
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
@@ -185,4 +186,4 @@ def xss(target, output, data):
 
 
 def xss_output(output, data, result):
-    data['module-Cross-Site Scripting (XSS)'] = result
+    data['module-Cross Site Scripting (XSS)'] = result
