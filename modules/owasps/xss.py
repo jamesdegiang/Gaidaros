@@ -91,7 +91,7 @@ def scan_xss(url, value_forms_malforms, xss_data):
         # get all the forms from the URL
         forms = get_all_forms(url)
         print(G + "[+]" + C + f" Detected {len(forms)} forms on {url}" + W)
-        xss_data.append(f" Detected {len(forms)} forms on {url}")
+        xss_data.append(f"Detected {len(forms)} forms on {url}")
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
         js_script = "<Script>alert('hi')</scripT>"
         # returning value
