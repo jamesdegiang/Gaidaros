@@ -77,7 +77,7 @@ light_help.add_argument('--light', help='Full Web Light Scan', action='store_tru
 
 # OWASP Scan parser
 owasp_help = parser.add_argument_group('OWASP Scan Options')
-owasp_help.add_argument('--xss', help='Cross Site Scripting - UNDER DEVELOPMENT', action='store_true')
+owasp_help.add_argument('--xss', help='Cross Site Scripting', action='store_true')
 owasp_help.add_argument('--sql', help='SQL Injection Scripting - UNDER DEVELOPMENT', action='store_true')
 owasp_help.add_argument('--csrf', help='Cross Site Request Forgery - UNDER DEVELOPMENT', action='store_true')
 owasp_help.add_argument('--owasp', help='Full OWASP Scan - UNDER DEVELOPMENT', action='store_true')
@@ -138,6 +138,7 @@ virus = args.virus
 light = args.light
 
 # OWASP Scan args
+xss = args.xss
 
 # Full Scan args
 full = args.full
@@ -390,7 +391,11 @@ try:
 	
 	if light == True:
 		light_scan()
-		
+	
+	if xss == True:
+		from modules.owasps.xss import xss
+		xss(target, output, data)
+
 	if full == True:
 		full_scan()
 	
