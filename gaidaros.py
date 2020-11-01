@@ -142,6 +142,7 @@ light = args.light
 # OWASP Scan args
 xss = args.xss
 cmdi = args.cmdi
+htmli = args.htmli
 
 # Full Scan args
 full = args.full
@@ -402,11 +403,15 @@ try:
 	if cmdi == True:
 		from modules.owasps.cmdi import cmdi
 		cmdi(target, output, data)
+	
+	if htmli == True:
+		from modules.owasps.htmli import htmli
+		htmli(target, output, data)
 
 	if full == True:
 		full_scan()
 	
-	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, site, virus, light, xss, cmdi, report, full]) != True:
+	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, site, virus, light, xss, cmdi, htmli, report, full]) != True:
 		print ('\n' + R + '[-] Error : ' + C + 'Atleast One Argument is Required with URL' + W)
 		output = 'None'
 		sys.exit()
