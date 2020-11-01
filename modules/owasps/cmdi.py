@@ -189,5 +189,5 @@ def cmdi(target, output, data):
 
 
 def cmdi_output(output, data, result):
-    data['module-OS Command Injection'] = result
+    data['module-Operating System Command Injection'] = result
 
