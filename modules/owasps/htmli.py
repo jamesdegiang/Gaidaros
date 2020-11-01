@@ -104,7 +104,7 @@ def scan_htmli(url, value_forms_malforms, htmli_data):
             form_details = get_form_details(form)
             content = submit_form(form_details, url, html_script).content.decode('latin-1')
             if html_script in content:
-                print(R + f"[-] Htmli Detected on {url}" + W)
+                print(R + f"[-] HTMLi Detected on {url}" + W)
                 print(R + "[-]" + C + " Form details:" + W)
                 pprint(form_details)
                 htmli_data.append(f"HTML Injection Detected on {url} | Form details: {form_details}")
@@ -176,7 +176,7 @@ def htmli(target, output, data):
             print(R + '[-]' + C + ' Response code returned is not 200' + W)
 
         if output != 'None':
-            result['htmli'] = htmli_data
+            result['HTMLi'] = htmli_data
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
@@ -189,4 +189,4 @@ def htmli(target, output, data):
 
 
 def htmli_output(output, data, result):
-    data['module-Cross Site Scripting (htmli)'] = result
+    data['module-HTML Injection (HTMLi)'] = result
