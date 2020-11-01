@@ -103,8 +103,8 @@ def scan_htmli(url, value_forms_malforms, htmli_data):
         for form in forms:
             form_details = get_form_details(form)
             content = submit_form(form_details, url, html_script).content.decode('latin-1')
-            if "Exploited" in content:
-                print(R + f"[-] htmli Detected on {url}" + W)
+            if html_script in content:
+                print(R + f"[-] Htmli Detected on {url}" + W)
                 print(R + "[-]" + C + " Form details:" + W)
                 pprint(form_details)
                 htmli_data.append(f"HTML Injection Detected on {url} | Form details: {form_details}")
@@ -129,7 +129,7 @@ def htmli(target, output, data):
     htmli_data = []
 
     try:
-        print ('\n\n' + G + '[+]' + Y + ' Cross-Site Scripting htmli :' + W + '\n')
+        print ('\n\n' + G + '[+]' + Y + ' HTML Injection (HTMLi) :' + W + '\n')
 
         user_agent = {
             'User-Agent' : 'Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0'
