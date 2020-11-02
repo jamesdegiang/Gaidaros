@@ -82,7 +82,7 @@ owasp_help.add_argument('--sql', help='SQL Injection Scripting - UNDER DEVELOPME
 owasp_help.add_argument('--csrf', help='Cross Site Request Forgery - UNDER DEVELOPMENT', action='store_true')
 owasp_help.add_argument('--cmdi', help='Operating System Command Injection', action='store_true')
 owasp_help.add_argument('--htmli', help='HTML Injection', action='store_true')
-owasp_help.add_argument('--owasp', help='Full OWASP Scan - UNDER DEVELOPMENT', action='store_true')
+owasp_help.add_argument('--owasp', help='Full OWASP Scan', action='store_true')
 
 # Full Scan parser
 full_help = parser.add_argument_group('Full Scan Options')
@@ -143,6 +143,7 @@ light = args.light
 xss = args.xss
 cmdi = args.cmdi
 htmli = args.htmli
+owasp = args.owasp
 
 # Full Scan args
 full = args.full
@@ -418,10 +419,13 @@ try:
 		from modules.owasps.htmli import htmli
 		htmli(target, output, data)
 
+	if owasp == True:
+		owasp_scan()
+
 	if full == True:
 		full_scan()
 	
-	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, site, virus, light, xss, cmdi, htmli, report, full]) != True:
+	if any([recon, geo, headinfo, sslinfo, whois, crawl, dns, subd, trace, pscan, dirrec, cve, site, virus, light, xss, cmdi, htmli, owasp, report, full]) != True:
 		print ('\n' + R + '[-] Error : ' + C + 'Atleast One Argument is Required with URL' + W)
 		output = 'None'
 		sys.exit()
