@@ -259,6 +259,16 @@ def light_scan():
 	scanVirus(target, output, data)
 
 # OWASP Scan
+def owasp_scan():
+	from modules.owasps.xss import xss
+	from modules.owasps.cmdi import cmdi
+	from modules.owasps.htmli import htmli
+	# 1. XSS
+	xss(target, output, data)
+	# 2. OS Command Injection
+	cmdi(target, output, data)
+	# 3. HTMLi
+	htmli(target, output, data)
 
 # Full Scan
 def full_scan():
