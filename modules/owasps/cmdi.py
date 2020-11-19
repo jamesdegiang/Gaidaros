@@ -96,22 +96,38 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
         print(G + "[+]" + C + f" Detected {len(forms)} forms on {url}" + W)
         cmdi_data.append(f"Detected {len(forms)} forms on {url}")
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
-        os_script = "a | ping 127.0.0.1"
+        #getpayload
+        payload_path = './dictionary/payload.txt'
+        f = open(payload_path,'r').readlines()
+#            for s in f:
+#                p = s.split(';')
+#                inc = p[0]
+#                outc = p[1]
+#            
+#        os_script = inc
         # returning value
         is_vulnerable = False
         # iterate over all forms
-        for form in forms:
-            form_details = get_form_details(form)
-            content = submit_form(form_details, url, os_script).content.decode('latin-1')
-            if "Reply from 127.0.0.1" in content or "64 bytes from 127.0.0.1" in content:
-                print(R + f"[-] Command Injection Detected on {url}" + W)
-                print(R + "[-]" + C + " Form details:" + W)
-                pprint(form_details)
-                cmdi_data.append(f"Command Injection Detected on {url} | Form details: {form_details}")
-                print(W)
-                value_forms_malforms[1] = value_forms_malforms[1] + 1
-                is_vulnerable = True
-                # won't break because we want to print other available vulnerable forms
+        for s in f:
+            p = s.split(';')
+            inc = p[0]
+            outc = p[1]
+            os_script = inc
+            for form in forms:
+                form_details = get_form_details(form)
+                if form_details == None:
+                    break
+                content = submit_form(form_details, url, os_script).content.decode('latin-1')
+                if outc in content:
+                    print(R + f"[-] Command Injection Detected on {url}" + W)
+                    print(R + "[-]" + C + " Form details:" + W)
+                    pprint(form_details)
+                    cmdi_data.append(f"Command Injection Detected on {url} | Form details: {form_details}")
+                    print(W)
+                    value_forms_malforms[1] = value_forms_malforms[1] + 1
+                    is_vulnerable = True
+                    # won't break because we want to print other available vulnerable forms
+            
 
         if is_vulnerable == True:
             print(R + "[-]" + f" Command Injection detected on {url}" + W)
@@ -122,7 +138,6 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
 
     except Exception as e:
         print(R + '[-] Exception : ' + C + str(e) + W)
-
 
 def cmdi(target, output, data):
     result = {}
