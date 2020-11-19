@@ -112,12 +112,13 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
             inc = p[0]
             outc = p[1]
             os_script = inc
-            print('testttt: ',inc,'---',outc)
+            print('In:',inc,'Out:',outc)
             for form in forms:
                 form_details = get_form_details(form)
                 if form_details == None:
                     break
                 content = submit_form(form_details, url, os_script).content.decode('latin-1')
+                print('content:',content)
                 if outc in content:
                     print(R + f"[-] Command Injection Detected on {url}" + W)
                     print(R + "[-]" + C + " Form details:" + W)
