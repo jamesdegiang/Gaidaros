@@ -112,7 +112,7 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
             inc = p[0]
             outc = p[1]
             os_script = inc
-            print('testttt: 'inc,'---',outc)
+            print('testttt: ',inc,'---',outc)
             for form in forms:
                 form_details = get_form_details(form)
                 if form_details == None:
