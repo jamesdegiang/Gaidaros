@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin
 import requests
 import urllib3
+import csv
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
