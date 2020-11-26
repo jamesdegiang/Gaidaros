@@ -122,12 +122,13 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
             inc = inps[i]
             outc = outcs[i]
             os_script = inc
-            print('In:',inc,'Out:',outc)
+            print('Loop ',i,': In:',inc,'Out:',outc)
             for form in forms:
                 form_details = get_form_details(form)
                 if form_details == None:
                     break
-                content = submit_form(form_details, url, os_script).content.decode('latin-1')
+                #content = submit_form(form_details, url, os_script).content.decode('latin-1')
+                content = 'PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data'
                 print('content:',content)
                 if outc in content:
                     print(R + f"[-] Command Injection Detected on {url}" + W)
