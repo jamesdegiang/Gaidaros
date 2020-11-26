@@ -102,15 +102,24 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
         value_forms_malforms[0] = value_forms_malforms[0] + len(forms)
         #os_script = "a | ping -c 2 127.0.0.1"
         #getpayload
-        payload_path = './dictionary/payload.txt'
-        f = open(payload_path,'r').readlines()
+        payload_path = './dictionary/payload.csv'
+        inps = []
+        outcs = []
+        with open(filename) as f:
+            readCSV = csv.reader(f, delimiter=',')
+            for row in readCSV:
+                inp = row[0]
+                outc = row[1]
+                print('in: ',inp,', out: ',outc)
+                inps.append(inp)
+                outcs.append(outc)
+        length = len(inps)
         # returning value
         is_vulnerable = False
         # iterate over all forms
-        for s in f:
-            p = s.split(';')
-            inc = p[0]
-            outc = p[1]
+        for i in range(length):
+            inc = inps[i]
+            outc = outcs[i]
             os_script = inc
             print('In:',inc,'Out:',outc)
             for form in forms:
