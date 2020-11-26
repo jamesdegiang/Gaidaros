@@ -105,7 +105,7 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
         payload_path = './dictionary/payload.csv'
         inps = []
         outcs = []
-        with open(filename) as f:
+        with open(payload_path) as f:
             readCSV = csv.reader(f, delimiter=',')
             for row in readCSV:
                 inp = row[0]
