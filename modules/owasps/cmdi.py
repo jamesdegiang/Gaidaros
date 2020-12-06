@@ -111,7 +111,7 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
             for row in readCSV:
                 inp = row[0]
                 outc = row[1]
-                print('in: ',inp,', out: ',outc)
+                #print('in: ',inp,', out: ',outc)
                 inps.append(inp)
                 outcs.append(outc)
         length = len(inps)
