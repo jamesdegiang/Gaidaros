@@ -118,6 +118,7 @@ def scan_cmdi(url, value_forms_malforms, cmdi_data):
         # returning value
         is_vulnerable = False
         # iterate over all forms
+        print('Start loop payload:')
         for i in range(length):
             inc = inps[i]
             outc = outcs[i]
